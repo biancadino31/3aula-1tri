@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vôlei Brasil - Tudo sobre Vôlei</title>
+    <meta name="description" content="Site completo sobre vôlei, com história, regras, times e curiosidades">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Reset e Estilos Gerais */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --font-size: 16px;
+            --heading-scale: 1.25;
+            --primary-color: #0056b3;
+            --primary-dark: #003c78;
+            --text-color: #333;
+            --text-light: #555;
+            --background: #fff;
+            --contrast-text: #fff;
+        }
+        
+        body {
+            font-family: 'Open Sans', sans-serif;
+            font-size: var(--font-size);
+            line-height: 1.6;
+            color: var(--text-color);
+            background-image: url('https://images.unsplash.com/photo-1592656094267-764a45160870?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.9);
+            z-index: -1;
+        }
+
+        /* Acessibilidade */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--primary-dark);
+            color: var(--contrast-text);
+            padding: 8px;
+            z-index: 100;
+            transition: top 0.3s;
+            font-size: 1rem;
+        }
+
+        .skip-link:focus {
+            top: 0;
+        }
+
+        .high-contrast {
+            --text-color: #fff !important;
+            --text-light: #ccc !important;
+            --background: #000 !important;
+            --primary-color: #ffcc00 !important;
+            --primary-dark: #ff9900 !important;
+            background-image: none !important;
+        }
+
+        .high-contrast body::before {
+            background-color: #000 !important;
+        }
+
+        /* Controles de Tamanho de Fonte */
+        .font-controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 100;
+        }
+
+        .font-btn {
+            background-color: var(--primary-color);
+            color: var(--contrast-text);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .font-btn:hover, .font-btn:focus {
+            background-color: var(--primary-dark);
+            transform: scale(1.1);
+            outline: none;
+        }
+
+        /* Cabeçalho */
+        header {
+            background-color: rgba(0, 86, 179, 0.95);
+            color: var(--contrast-text);
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        header h1 {
+            font-size: calc(2.5rem * var(--heading-scale));
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+            font-family: 'Roboto', sans-serif;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        header p {
+            font-size: calc(1.2rem * var(--heading-scale));
+        }
+
+        /* Navegação */
+        nav {
+            background-color: rgba(0, 60, 120, 0.95);
+            padding: 0.75rem;
+            position: sticky;
+            top: 0;
+            z-index: 90;
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+
+        nav li {
+            margin: 0 1rem;
+        }
+
+        nav a {
+            color: var(--contrast-text);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            font-size: calc(1rem * var(--heading-scale));
+        }
+
+        nav a:hover, nav a:focus {
+            background-color: rgba(255, 255, 255, 0.3);
+            outline: 2px solid var(--contrast-text);
+        }
+
+        /* Conteúdo Principal */
+        main {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        section {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 0.75rem;
+            font-size: calc(2rem * var(--heading-scale));
+            font-family: 'Roboto', sans-serif;
+        }
+
+        h3 {
+            color: var(--primary-dark);
+            margin: 2rem 0 1.25rem;
+            font-size: calc(1.5rem * var(--heading-scale));
+            font-family: 'Roboto', sans-serif;
+        }
+
+        p, li {
+            margin-bottom: 1.25rem;
+            font-size: 1em;
+            line-height: 1.7;
+        }
+
+        ul, ol {
+            margin-bottom: 1.5rem;
+            padding-left: 2rem;
+        }
+
+        li {
+            margin-bottom: 0.75rem;
+        }
+
+        strong {
+            color: var(--primary-dark);
+        }
+
+        /* Imagens */
+        .image-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            margin: 2.5rem 0;
+            gap: 1.5rem;
+        }
+
+        .image-card {
+            flex: 1 1 300px;
+            max-width: 400px;
+            background: var(--background);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .image-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .image-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-bottom: 1px solid #eee;
+        }
+
+        .image-card figcaption {
+            padding: 1.25rem;
+            font-size: 0.95rem;
+            color: var(--text-light);
+            background: var(--background);
+        }
+
+        /* Áudio */
+        .audio-player {
+            background: #f5f5f5;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 1px solid #ddd;
+        }
+
+        .audio-player p {
+            font-style: italic;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+            font-size: 1.1em;
+        }
+
+        audio {
+            width: 100%;
+            max-width: 400px;
+        }
+
+        audio:focus {
+            outline: 2px solid var(--primary-color);
+        }
+
+        /* Tabela */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0 2.5rem;
+            font-size: 1em;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 1rem;
+            text-align: left;
+        }
+
+        th {
+            background-color: var(--primary-color);
+            color: var(--contrast-text);
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Rodapé */
+        footer {
+            background-color: rgba(0, 60, 120, 0.95);
+            color: var(--contrast-text);
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+
+        footer p {
+            margin-bottom: 0.75rem;
+            font-size: 1em;
+        }
+
+        /* Controles de Acessibilidade */
+        .accessibility-controls {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 100;
+        }
+
+        .accessibility-btn {
+            background-color: var(--primary-color);
+            color: var(--contrast-text);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .accessibility-btn:hover, .accessibility-btn:focus {
+            background-color: var(--primary-dark);
+            transform: scale(1.1);
+            outline: none;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            nav li {
+                margin: 0.5rem 0;
+            }
+            
+            .image-card {
+                flex: 1 1 100%;
+            }
+            
+            .accessibility-controls {
+                bottom: 80px;
+            }
+            
+            .font-controls {
+                bottom: 15px;
+                right: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            :root {
+                --font-size: 14px;
+            }
+            
+            header h1 {
+                font-size: calc(2rem * var(--heading-scale));
+            }
+            
+            section {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Link de salto para acessibilidade -->
+    <a href="#main-content" class="skip-link">Ir para o conteúdo principal</a>
+
+    <!-- Cabeçalho -->
+    <header>
+        <h1>Vôlei Brasil</h1>
+        <p>Tudo sobre o esporte que move paixões</p>
+    </header>
+
+    <!-- Navegação -->
+    <nav>
+        <ul>
+            <li><a href="#historia">História</a></li>
+            <li><a href="#regras">Regras</a></li>
+            <li><a href="#tecnicas">Técnicas</a></li>
+            <li><a href="#times">Times Brasileiros</a></li>
+            <li><a href="#curiosidades">Curiosidades</a></li>
+        </ul>
+    </nav>
+
+    <!-- Conteúdo Principal -->
+    <main id="main-content">
+        <!-- Seção História -->
+        <section id="historia" aria-labelledby="historia-title">
+            <h2 id="historia-title">História do Vôlei</h2>
+            <p>O vôlei foi criado em 1895 por William G. Morgan, um professor de educação física da Associação Cristã de Moços (ACM) em Holyoke, Massachusetts, EUA. O esporte foi originalmente chamado de "Mintonette" e foi concebido como uma alternativa menos intensa ao basquete para membros mais velhos da ACM.</p>
+            
+            <div class="image-container">
+                <figure class="image-card">
+                    <img src="https://images.unsplash.com/photo-1547347298-4074fc3086f0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Partida de vôlei em quadra coberta, mostrando jogadores em ação durante um saque">
+                    <figcaption>Partida de vôlei em quadra coberta, mostrando jogadores em ação durante um saque</figcaption>
+                </figure>
+                <figure class="image-card">
+                    <img src="ola.jpg" alt="Jogador de vôlei de praia fazendo uma cortada na areia com o mar ao fundo">
+                    <figcaption>Jogador de vôlei de praia fazendo uma cortada na areia com o mar ao fundo</figcaption>
+                </figure>
+            </div>
+            
+            <p>O vôlei chegou ao Brasil por volta de 1915, trazido pela ACM. Porém, só começou a se popularizar na década de 1920. O esporte se desenvolveu rapidamente no país, que hoje é uma das maiores potências mundiais, com títulos olímpicos e mundiais tanto no vôlei de quadra quanto no vôlei de praia.</p>
+            
+            <div class="audio-player">
+                <p>Ouça o som característico de uma partida de vôlei:</p>
+                <audio controls aria-label="Áudio de uma partida de vôlei">
+                    <source src="vole 1.mp3" type="audio/mpeg">
+                    Seu navegador não suporta o elemento de áudio.
+                </audio>
+            </div>
+        </section>
+
+        <!-- Seção Regras -->
+        <section id="regras" aria-labelledby="regras-title">
+            <h2 id="regras-title">Regras Básicas</h2>
+            <p>O vôlei é jogado por duas equipes de seis jogadores em uma quadra dividida por uma rede. O objetivo é fazer a bola tocar o chão da quadra adversária, seguindo um conjunto de regras específicas.</p>
+            
+            <h3>Principais Regras:</h3>
+            <ul>
+                <li>Cada equipe pode tocar a bola no máximo três vezes antes de enviá-la para o outro lado</li>
+                <li>Um jogador não pode tocar a bola duas vezes consecutivas (exceto no bloqueio)</li>
+                <li>A bola deve ser jogada com as mãos ou qualquer parte do corpo acima da cintura</li>
+                <li>O jogo é disputado em sets de 25 pontos (com diferença mínima de 2 pontos)</li>
+                <li>O quinto set (se necessário) é disputado até 15 pontos</li>
+            </ul>
+            
+            <div class="image-container">
+                <figure class="image-card">
+                    <img src="arbitragem-cbv-Sesi-x-Taubaté-William-Lucas-inovafoto-cbv-min.webp" alt="Árbitro de vôlei apitando uma jogada durante partida internacional">
+                    <figcaption>Árbitro de vôlei apitando uma jogada durante partida internacional</figcaption>
+                </figure>
+            </div>
+            
+            <h3>Posições dos Jogadores:</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Posição</th>
+                        <th>Função Principal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Levantador</td>
+                        <td>Armar as jogadas de ataque para os ponteiros e opostos</td>
+                    </tr>
+                    <tr>
+                        <td>Ponteiro</td>
+                        <td>Atacar pelas extremidades da rede e receber saques</td>
+                    </tr>
+                    <tr>
+                        <td>Oposto</td>
+                        <td>Principal atacante, joga na posição oposta ao levantador</td>
+                    </tr>
+                    <tr>
+                        <td>Central</td>
+                        <td>Bloquear e atacar bolas rápidas no meio da rede</td>
+                    </tr>
+                    <tr>
+                        <td>Líbero</td>
+                        <td>Especialista em defesa e recepção, não pode atacar</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            
+        </section>
+
+        <!-- Seção Técnicas -->
+        <section id="tecnicas" aria-labelledby="tecnicas-title">
+            <h2 id="tecnicas-title">Técnicas e Fundamentos</h2>
+            <p>O vôlei possui seis fundamentos básicos que todo jogador deve dominar: saque, recepção, levantamento, ataque, bloqueio e defesa.</p>
+            
+            <h3>Saque</h3>
+            <p>O saque é o movimento que inicia o jogo. Existem vários tipos de saque:</p>
+            <ul>
+                <li><strong>Saque por baixo:</strong> Básico para iniciantes</li>
+                <li><strong>Saque por cima:</strong> Comum em jogos recreativos</li>
+                <li><strong>Saque viagem:</strong> Potente e com efeito, usado em alto nível</li>
+                <li><strong>Saque flutuante:</strong> Sem rotação, difícil de receber</li>
+            </ul>
+            
+           
+            
+            <h3>Ataque (Cortada)</h3>
+            <p>A cortada é o principal movimento de ataque. O jogador salta e bate na bola com força para dificultar a defesa adversária.</p>
+            
+            <div class="image-container">
+                <figure class="image-card">
+                    <img src="ana.webp" alt="Jogadora realizando uma cortada poderosa durante partida noturna">
+                    <figcaption>Jogadora realizando uma cortada poderosa durante partida noturna</figcaption>
+                </figure>
+                <figure class="image-card">
+                    <img src="images.jpg" alt="Sequência de movimento de bloqueio com dois jogadores saltando juntos">
+                    <figcaption>Sequência de movimento de bloqueio com dois jogadores saltando juntos</figcaption>
+                </figure>
+            </div>
+            
+            <h3>Bloqueio</h3>
+            <p>O bloqueio é a primeira linha de defesa, realizado por um ou mais jogadores próximos à rede para interceptar o ataque adversário.</p>
+            
+           
+        </section>
+
+        <!-- Seção Times -->
+        <section id="times" aria-labelledby="times-title">
+            <h2 id="times-title">Times Brasileiros</h2>
+            <p>O Brasil possui uma das ligas de vôlei mais fortes do mundo, com times tradicionais e uma seleção nacional que é sempre candidata a títulos internacionais.</p>
+            
+            <h3>Principais Times Masculinos:</h3>
+            <ul>
+                <li>Sada Cruzeiro (Minas Gerais)</li>
+                <li>Funvic (São Paulo)</li>
+                <li>SESI-SP (São Paulo)</li>
+                <li>Minas Tênis Clube (Minas Gerais)</li>
+            </ul>
+            
+            <h3>Principais Times Femininos:</h3>
+            <ul>
+                <li>Osasco (São Paulo)</li>
+                <li>Minas Tênis Clube (Minas Gerais)</li>
+                <li>SESI-SP (São Paulo)</li>
+                <li>Fluminense (Rio de Janeiro)</li>
+            </ul>
+            
+            <div class="image-container">
+                <figure class="image-card">
+                    <img src="download.jpg" alt="Torcida animada em um jogo de vôlei, com bandeiras e faixas">
+                    <figcaption>Torcida animada em um jogo de vôlei, com bandeiras e faixas</figcaption>
+                </figure>
+                <figure class="image-card">
+                    <img src="selecao-feminina-volei-brasil-medalha-bronze-olimpiadas-paris-2024-_-foto-Foto-Miriam-JeskeCOB.png" alt="Time de vôlei comemorando ponto em partida importante">
+                    <figcaption>Time de vôlei comemorando ponto em partida importante</figcaption>
+                </figure>
+            </div>
+            
+            
+        </section>
+
+        <!-- Seção Curiosidades -->
+        <section id="curiosidades" aria-labelledby="curiosidades-title">
+            <h2 id="curiosidades-title">Curiosidades</h2>
+            <p>O vôlei é repleto de fatos interessantes e histórias marcantes. Confira algumas curiosidades:</p>
+            
+            <h3>Recordes e Marcas</h3>
+            <ul>
+                <li>O saque mais rápido já registrado no vôlei masculino foi a 134 km/h</li>
+                <li>O jogo mais longo da história durou 85 horas e 30 minutos</li>
+                <li>O Brasil é o único país que ganhou ouro olímpico no vôlei de quadra e de praia no mesmo ano (2004)</li>
+                <li>A seleção brasileira masculina já ficou 3 anos e 2 meses invicta (2003-2006)</li>
+            </ul>
+            
+            <div class="image-container">
+                <figure class="image-card">
+                    <img src="b1ab26oqzxtjvnsxbkfi.avif" alt="Medalha de ouro olímpica sendo exibida por jogador de vôlei">
+                    <figcaption>Medalha de ouro olímpica sendo exibida por jogador de vôlei</figcaption>
+                </figure>
+            </div>
+            
+            <h3>Vôlei Adaptado</h3>
+            <p>Existem variações do vôlei para pessoas com deficiência, como o vôlei sentado, que é paralímpico desde 1980. Nesta modalidade, os jogadores permanecem sentados no chão e a rede é mais baixa.</p>
+            
+          
+        </section>
+    </main>
+
+    <!-- Rodapé -->
+    <footer>
+        <p>© 2023 Vôlei Brasil - Todos os direitos reservados</p>
+        <p>Site desenvolvido com foco em acessibilidade</p>
+    </footer>
+
+    <!-- Controles de Acessibilidade -->
+    <div class="accessibility-controls">
+        <button class="accessibility-btn" id="contrast-btn" aria-label="Alto contraste">☀️</button>
+    </div>
+
+    <!-- Controles de Tamanho de Fonte -->
+    <div class="font-controls">
+        <button class="font-btn" id="increase-font" aria-label="Aumentar fonte">A+</button>
+        <button class="font-btn" id="decrease-font" aria-label="Diminuir fonte">A-</button>
+    </div>
+
+    <script>
+        // Controle de Tamanho de Fonte
+        document.getElementById('increase-font').addEventListener('click', function() {
+            const root = document.documentElement;
+            let currentSize = parseFloat(getComputedStyle(root).getPropertyValue('--font-size'));
+            let currentScale = parseFloat(getComputedStyle(root).getPropertyValue('--heading-scale'));
+            
+            if (currentSize < 22) {
+                root.style.setProperty('--font-size', (currentSize + 1) + 'px');
+                root.style.setProperty('--heading-scale', (currentScale + 0.05).toString());
+            }
+        });
+
+        document.getElementById('decrease-font').addEventListener('click', function() {
+            const root = document.documentElement;
+            let currentSize = parseFloat(getComputedStyle(root).getPropertyValue('--font-size'));
+            let currentScale = parseFloat(getComputedStyle(root).getPropertyValue('--heading-scale'));
+            
+            if (currentSize > 12) {
+                root.style.setProperty('--font-size', (currentSize - 1) + 'px');
+                root.style.setProperty('--heading-scale', (currentScale - 0.05).toString());
+            }
+        });
+
+        // Controle de Alto Contraste
+        document.getElementById('contrast-btn').addEventListener('click', function() {
+            document.body.classList.toggle('high-contrast');
+            
+            if (document.body.classList.contains('high-contrast')) {
+                this.setAttribute('aria-label', 'Desativar alto contraste');
+                this.textContent = '🌙';
+            } else {
+                this.setAttribute('aria-label', 'Ativar alto contraste');
+                this.textContent = '☀️';
+            }
+        });
+
+        // Foco para acessibilidade
+        document.addEventListener('keyup', function(e) {
+            if (e.key === 'Tab') {
+                const focusable = document.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+                focusable.forEach(el => {
+                    el.addEventListener('focus', function() {
+                        this.style.outline = '2px solid #0056b3';
+                        this.style.outlineOffset = '2px';
+                    });
+                    el.addEventListener('blur', function() {
+                        this.style.outline = 'none';
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+</html>
